@@ -1,4 +1,4 @@
-# Mapev
+# 15 Minute Neighbourhood
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
 
