@@ -1,0 +1,117 @@
+<mat-toolbar class="navbar-header" #header>
+  <mat-toolbar-row>
+
+      <button *ngIf="userIsAuthenticated" mat-icon-button class="navbar-button">
+        <mat-icon *ngIf="!sideNavHidden" (click)="toggleSidenav()">keyboard_arrow_left</mat-icon>
+        <mat-icon *ngIf="sideNavHidden" (click)="toggleSidenav()">keyboard_arrow_right</mat-icon>
+      </button>
+      <h5 class="header-version">version: 0.9.6</h5>
+      <!-- Logo, My Data -->
+        <ul>
+        <li *ngIf="userIsAuthenticated && savedMapLoaded && !isProcessing" class="header-items-style">
+          <h3 class="header-options-left-map">{{this.currentMap}} <i class="highlightaccess"> {{this.accessLevel}}</i></h3>
+    
+        </li>
+
+        <li *ngIf="userIsAuthenticated && this.userType === 'EDITOR'" class="header-items-style">
+            <h3 class="header-options-left" (click)="openDataDialog()">
+            <mat-icon matTooltip="Data">filter_none </mat-icon>
+            </h3>
+        </li>
+      </ul>
+
+      <!-- Progress Bar on Save -->
+      <mat-progress-bar mode="buffer" *ngIf="isProcessing"
+      [color]="color"
+      attr.aria-label="Saving...."
+      matTooltip="Saving...."
+      style="margin-left: 10pc; margin-right: 10pc; color: #FFFFFF"></mat-progress-bar>
+
+
+    <!--   <app-search></app-search> -->
+
+      <!-- Logout -->
+      <span class="spacer"></span>
+     
+      <ul >
+        <li *ngIf="userIsAuthenticated && projectEditAccess && this.userType === 'EDITOR'" > 
+          <button mat-mini-fab
+            matTooltip="Save..."
+            type="button"
+            color="primary"
+            (click)="saveMapPrompt()"
+            class="hover-class2" [disabled]="this.mapService.getMapId()===''">
+            <mat-icon>save</mat-icon>
+          </button>
+        </li>
+
+          <li>
+            <button mat-mini-fab
+            matTooltip="Info..."
+            type="button"
+            color="primary"
+            (click)="launchHelp()"
+            class="hover-class2" >
+            <mat-icon>info</mat-icon>
+          </button>
+          </li>
+
+          <li *ngIf="userIsAuthenticated">
+            <button mat-mini-fab
+              matTooltip="Notifications..."
+              type="button"
+              color="primary"
+              [matMenuTriggerFor]="notificationsMenu"
+              class="hover-class3"
+              >
+            <mat-menu #notificationsMenu="matMenu">
+              <h3 class="notificationstitle">Notifications</h3>
+              <span *ngFor="let row of notifications; let i=index" >
+             <!--  <button mat-menu-item  (click)="readNotification(row)"> -->
+                <button mat-menu-item [ngStyle]="{'font-weight': row.status === 'UNREAD' ? 'bold' : 'normal', 'font-size': '12px'}" (click)="readNotification(row)">
+                
+                <!-- Map Share Notification Type-->
+                <span *ngIf="row.notificationType === 'MapShare'"> 
+                  <div [ngStyle]="{'color': row.status === 'UNREAD' ? 'violet' : '#94aa94', 'font-size': '11px'}">
+                    <mat-icon >map</mat-icon>{{row.createdDate | date: 'MMM d, y h:mm:ss a'}}</div>
+                    {{row.userNameOfOrigin}} has shared map {{row.mapName}} with you
+                </span>
+
+                  <!-- Comment Tag Notification Type-->
+                  <span *ngIf="row.notificationType === 'CommentTag'">
+                    <div [ngStyle]="{'color': row.status === 'UNREAD' ? 'violet' : '#94aa94', 'font-size': '11px'}">
+                      <mat-icon >chat</mat-icon>{{row.createdDate | date: 'MMM d, y h:mm:ss a'}}</div>
+                    {{row.userNameOfOrigin}} has tagged you in a thread on map {{row.mapName}}
+                  </span>
+
+              </button>
+              <hr>
+            </span>
+            </mat-menu>
+            <mat-icon matBadge={{numberOfNotifications}} matBadgeColor="accent">notification_important</mat-icon>
+          </button>
+        </li>
+
+        <li  *ngIf="userIsAuthenticated ">
+          <button mat-mini-fab
+          matTooltip="Toggle Style Panel"
+          color="primary"
+          class="hover-class3" >
+            <mat-icon  (click)="toggleStylePanel()">keyboard_arrow_right</mat-icon>
+          </button>
+        </li>
+
+        <li *ngIf="userIsAuthenticated">
+          <button mat-mini-fab
+          matTooltip="Logout"
+          type="button"
+          color="primary"
+          (click)="onLogout()"
+          class="hover-class2">
+        <mat-icon>exit_to_app</mat-icon>
+        </button>
+        </li>
+    </ul>
+  </mat-toolbar-row>
+</mat-toolbar>
+
