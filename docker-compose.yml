@@ -1,0 +1,12 @@
+version: '3'
+services:
+  fifteenmincity:
+    build: ./fifteenmincity/
+    ports:
+      - "6001:4200"
+    restart: always
+  fifteenmincity_backend:
+    build: ./fifteenmincity_backend/
+    ports:
+      - "8081:8081" 
+    restart: always
