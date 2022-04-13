@@ -1,12 +1,12 @@
 version: '3'
 services:
-  fifteenmincity:
-    build: ./fifteenmincity/
+  fmn:
+    build: ./fmn_front/
     ports:
       - "6001:4200"
     restart: always
-  fifteenmincity_backend:
-    build: ./fifteenmincity_backend/
+  fmn_backend:
+    build: ./fmn_backend/
     ports:
       - "8081:8081" 
     restart: always
