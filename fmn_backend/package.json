@@ -29,7 +29,6 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "simple-node-logger": "^18.12.24",
-    "sleep": "^6.3.0",
     "utm": "^1.1.1",
     "utm-latlng": "^1.0.6"
   },

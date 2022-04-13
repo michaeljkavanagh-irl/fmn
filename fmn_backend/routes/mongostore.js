@@ -20,7 +20,7 @@ const multer = Multer({
 
 router.get("/threads/search", MongoController.searchThreadContent);
 router.post("/places", MongoController.searchPlaces);
-router.post("/features", MongoController.storeFeatures);
+//router.post("/features", MongoController.storeFeatures);
 router.get("/isochrone", MongoController.updateIsochrone);
 
 /** Route to fetch the header level Project Data Layers */
