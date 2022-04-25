@@ -20,14 +20,14 @@ Conceptual:
 1) There are obviously millions of people that reside outside cities where there is a reliance on cars in order to fulfill these essential 6 functions. 
 2) There is also a challenge is how to score the results. Is it better to live near a primary educational facility or a secondary or 3rd level? Is it better to live near a hospital or a private GP / Doctor surgery? 
 
-
- Markup : * Bullet list
+## Tech Stack and APIs
+* Bullet list
               * Nested bullet
                   * Sub-nested bullet etc
           * Bullet list item 2
 
- Markup : * MongoDB
-          * Express
+ * MongoDB
+ * Express
           * Angular
           * NodeJS
           * Mapbox
