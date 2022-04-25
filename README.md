@@ -16,11 +16,14 @@ There is also a challenge is how to score the results. Is it better to live near
 
 ## Tech Stack and APIs
 
-MongoDB (Atlas - Application Data Platform)
+MongoDB
 Express
-NodeJS
 Angular
+NodeJS
 MapBox
-Google Address Autocomplete
+Google (Address Autocomplete)
 HERE Technologies (Places API)
+Atlas Search
+Atlas Charts
+Atlas Realm Hosting
 
