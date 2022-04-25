@@ -22,14 +22,12 @@ import { ErrorComponent } from './error/error.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './header/header.component';
 import { MapComponent } from './map/map.component';
 
 
 @NgModule({
   declarations: [
     SearchComponent,
-    HeaderComponent,
     MapComponent,
     AppComponent,
     ErrorComponent
