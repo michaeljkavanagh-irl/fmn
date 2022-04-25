@@ -6,7 +6,7 @@ The concept of a 15 minute city or neighbourhood was first discussed by French C
 
 ## Purpose
 
-This application is NOT an official MongoDB product but rather a free (largely untested!) resource to 1) Test out the 15min city idea against various locations and addresses and 2) Being a reusable tool or resource to demonstrate the awesome capabilities of the MongoDB Atlas Application Data Platform. 
+This application is NOT an official MongoDB product but rather a free (largely untested!) resource to 1) Test out the 15min city idea against various locations and addresses and 2) Be a reusable tool or resource to demonstrate the awesome capabilities of the MongoDB Atlas Application Data Platform. 
 
 
 ## Challenges
