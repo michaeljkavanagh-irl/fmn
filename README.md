@@ -1,6 +1,6 @@
 # 15 Minute Neighbourhood
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.20.
+The concept of a 15 minute city or neighbourhood was first discussed by French Columbian scientist Carlos Moreno who published an artible in 2021 describing the 15min city or town as a place where its residents can fulfill 6 essential functions within a 15 minute walk or bike ride from their dwelling. These functions include: living, working, commerce, healthcare, education & entertainment. 
 
 ## Development server
 
