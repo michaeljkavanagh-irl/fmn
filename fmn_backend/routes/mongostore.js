@@ -18,7 +18,8 @@ const multer = Multer({
   });
 
 
-router.get("/threads/search", MongoController.searchThreadContent);
+//router.get("/threads/search", MongoController.searchThreadContent);
+router.get("/places/search", MongoController.searchThreadContent);
 router.post("/places", MongoController.searchPlaces);
 //router.post("/features", MongoController.storeFeatures);
 router.get("/isochrone", MongoController.updateIsochrone);

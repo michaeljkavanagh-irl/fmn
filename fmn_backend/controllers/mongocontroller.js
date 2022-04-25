@@ -11,7 +11,7 @@ const fetch = require('node-fetch');
 
     /** ================================ Search Project Content ========================================= */
     exports.searchThreadContent = (req,res,next) => {
-      console.log('test');
+      //console.log('test');
         const searchKey = req.query.value;
        /*  String.prototype.toObjectId = function() {
           var ObjectId = (require('mongoose').Types.ObjectId);
@@ -19,11 +19,11 @@ const fetch = require('node-fetch');
         };
         var id = mongoose.Types.ObjectId(userId); */
         console.log(req.query);
-        CommentDoc.aggregate([
+        PlacesDoc.aggregate([
           {   
               $search: {
                 "autocomplete": {
-                  "path": "comment",
+                  "path": "title",
                   "query": searchKey
                 }
               
@@ -40,7 +40,7 @@ const fetch = require('node-fetch');
         })
         .catch(error => {
           console.log(error);
-          res.status(500).json({error:'Something went wrong fetching threads'});
+          res.status(500).json({error:'Something went wrong fetching places'});
         })
       }
     /** ================================ Search Project Content ========================================= */
@@ -48,7 +48,6 @@ const fetch = require('node-fetch');
 
     /** ================================ Search Google Places ========================================= */
     exports.searchPlaces = (req,response,next) => {
-      console.log(req.body);
       const apiKey = process.env.GOOGLE_API_KEY;
 
       let lat = req.body.lat;
@@ -99,7 +98,7 @@ const fetch = require('node-fetch');
         for (let category of dataArr) {
           for (let item of category.items) {
 
-              console.log(item);
+
               var mastercategory;
                 if (item.categories === undefined) {
                   mastercategory = 'Other';
@@ -148,7 +147,7 @@ const fetch = require('node-fetch');
         .then(dropResponse => {
           PlacesDoc.insertMany(docsArr)
             .then(mongoresponse => {     
-                console.log(mongoresponse);  
+                //console.log(mongoresponse);  
                 response.status(200).json({categories:dataArr});
             })
             .catch(error => {

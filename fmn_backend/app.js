@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 //mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb+srv://mk:admin@cluster0.rtrla.mongodb.net/testmk?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://mk:admin@cluster0.rtrla.mongodb.net/testmk1?retryWrites=true&w=majority')
 .then(() => {
     console.log('Connected to the database!')
 })

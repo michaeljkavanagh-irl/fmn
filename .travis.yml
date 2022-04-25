@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t fmn_app -f Dockerfile .
+  - docker build -t fmn_app -f Dockerfile.dev .
 
 script:
   - docker run -e CI=true fmn_app npm run test

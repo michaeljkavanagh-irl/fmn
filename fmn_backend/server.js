@@ -2,21 +2,21 @@ const app = require("./app");
 const debug = require("debug")("node-angular");
 const http = require("http").Server(app);
 const MongoController = require('./controllers/mongocontroller');
-var io = require('socket.io')(http, {
+/* var io = require('socket.io')(http, {
   cors: {
     origin: ["http://localhost:4200", "https://www.ourcollective-beta.co.uk"],
     methods: ["GET", "POST", "PUT", "DELETE"]
   }
-});
+}); */
 // load consumer.js and pass it the socket.io object
 
 
 
-io.on('connection', (socket) => {
-  /* socket.on('mapshare', (msg) => {
+/* io.on('connection', (socket) => {
+   socket.on('mapshare', (msg) => {
     console.log(msg);
-  }); */
- });
+  }); 
+ }); */
 
 const normalizePort = val => {
   var port = parseInt(val, 10);
@@ -67,5 +67,5 @@ server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
 
-const socketIoObject = io;
-module.exports.ioObject = socketIoObject;
+//const socketIoObject = io;
+//module.exports.ioObject = socketIoObject;
