@@ -2,7 +2,7 @@
 
 # 15 Minute Neighbourhood - Introduction
 
-The concept of a 15 minute city or neighbourhood was first discussed by French Columbian scientist Carlos Moreno who published an artible in 2021 describing the <a href="https://en.wikipedia.org/wiki/15-minute_city">15min city</a> or town as a place where its residents can fulfill 6 essential functions within a 15 minute walk or bike ride from their dwelling. These functions include: living, working, commerce, healthcare, education & entertainment. 
+The concept of a 15 minute city or neighbourhood was first discussed by French Columbian scientist Carlos Moreno who published an article in 2021 describing the <a href="https://en.wikipedia.org/wiki/15-minute_city">15min city</a> or town as a place where its residents can fulfill 6 essential functions within a 15 minute walk or bike ride from their dwelling. These functions include: living, working, commerce, healthcare, education & entertainment. 
 
 ## Purpose
 
