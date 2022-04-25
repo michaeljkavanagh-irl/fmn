@@ -5,7 +5,6 @@ import { MatBadgeModule, MatIconModule, MatMenuModule, MatProgressBarModule, Mat
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularMaterialModule } from './angular-material.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
 import { MapService } from './map/map.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
