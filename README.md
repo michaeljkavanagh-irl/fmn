@@ -21,18 +21,15 @@ Conceptual:
 2) There is also a challenge is how to score the results. Is it better to live near a primary educational facility or a secondary or 3rd level? Is it better to live near a hospital or a private GP / Doctor surgery? 
 
 ## Tech Stack and APIs
-Markup : * MongoDB
-Ex[ress
-Amgular
-        
-MongoDB
-Express
-Angular
-NodeJS
-MapBox
-Google (Address Autocomplete)
-HERE Technologies (Places API)
-Atlas Search
-Atlas Charts
-Atlas Realm Hosting
+
+*MongoDB
+*Express
+*Angular
+*NodeJS
+*MapBox
+*Google (Address Autocomplete)
+*HERE Technologies (Places API)
+*Atlas Search
+*Atlas Charts
+*Atlas Realm Hosting
 
