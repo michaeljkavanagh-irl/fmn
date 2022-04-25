@@ -1,4 +1,4 @@
-![alt text](https://github.com/michaeljkavanagh-irl/fmn/master/src/assets/images/MOngoDB_LDN.png?raw=true)
+![alt text](https://github.com/michaeljkavanagh-irl/fmn/blob/master/src/assets/images/MOngoDB_LDN.png?raw=true)
 
 # 15 Minute Neighbourhood - Introduction
 
