@@ -22,14 +22,15 @@ Conceptual:
 
 ## Tech Stack and APIs
 
-*MongoDB
-*Express
-*Angular
-*NodeJS
-*MapBox
-*Google (Address Autocomplete)
-*HERE Technologies (Places API)
-*Atlas Search
-*Atlas Charts
-*Atlas Realm Hosting
+Markup : * MongoDB
+         * Express
+         * Angular
+         * NodeJS
+         * Mapbox
+         * Google (Address Autocomplete)
+         * HERE Technologies (Places API)
+         * Atlas Search
+         * Atlas Charts
+         * Atlas Realm Hosting
+
 
