@@ -4,7 +4,8 @@ const mongoRoutes = require('./routes/mongostore');
 const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
-mongoose.connect('mongodb+srv://mk:admin@cluster0.rtrla.mongodb.net/testmk1?retryWrites=true&w=majority')
+require('dotenv').config();
+mongoose.connect('mongodb+srv://'+process.env.atlasuser+':'+process.env.atlasps+'@cluster0.rtrla.mongodb.net/fmn?retryWrites=true&w=majority')
 .then(() => {
     console.log('Connected to the database!')
 })
@@ -33,7 +34,7 @@ app.use("/api/data", mongoRoutes);
  */
 app.get('/api/data', (req, res, next) => {
     const data = [
-        { id: 'OC1', dataname: '15min Neighbourhood', content: 'FMN Server open for biz...'}
+        { id: 'FMN', dataname: '15min Neighbourhood', content: 'FMN Server open for biz...'}
     ]
     res.status(200).json({
         message:'Data fetched successfully',

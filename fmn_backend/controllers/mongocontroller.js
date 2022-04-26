@@ -38,8 +38,6 @@ const PlacesDoc = require('../models/places');
 
     /** ================================ Search Google Places ========================================= */
     exports.searchPlaces = (req,response,next) => {
-      const apiKey = process.env.GOOGLE_API_KEY;
-
       let lat = req.body.lat;
       let lng = req.body.lng;
       let radius = req.body.radius; 
@@ -48,7 +46,7 @@ const PlacesDoc = require('../models/places');
 
   
       /** Criteria for 15 MIN CITY */
-      /** Groceries , Medical, Culture, Education, Transit, Leisure */
+      /** Groceries , Medical, Culture, Education, Transport, Outdoor */
       var placesURL;
       let urls = [];
       let dataArr = [];
@@ -56,19 +54,12 @@ const PlacesDoc = require('../models/places');
       let differentTypes = ['Education Facility', 'Park-Recreation Area', 'Sports Facility/Venue', 'Convenience Store', 
       'Hospital or Health Care Facility', 'Tourist Attraction', 'Bus Stop', 'Train Station'];
         for (let type of differentTypes) {
-          console.log('creating URL for: '+type+ ' with a radius of: '+radius);
+          console.log(TAG+ 'creating URL for: '+type+ ' with a radius of: '+radius);
           placesURL = 'https://discover.search.hereapi.com/v1/'+
-          'discover?apiKey=20FbZzEd0daRqXGutKvdTnUHAY0k9LLaXKLgVvmuFQU'+
+          'discover?apiKey='+process.env.placesAPIkey+
           '&in=circle:'+lng+','+lat+';r='+refactoredRadius+''+
           '&limit=50'+
           '&q='+type+'';
-
-
-         /*  placesURL = 'https://discover.search.hereapi.com/v1/'+
-          'discover?apiKey=20FbZzEd0daRqXGutKvdTnUHAY0k9LLaXKLgVvmuFQU'+
-          '&in=bbox:'+westLng+','+southLat+','+eastLng+','+northLat+
-         '&limit=100'+
-          '&q='+type+''; */
 
         urls.push(placesURL);
          
@@ -117,7 +108,6 @@ const PlacesDoc = require('../models/places');
                 }
               
 
-
             newDoc = {
               title: item.title,
               categories: item.categories,
@@ -131,6 +121,7 @@ const PlacesDoc = require('../models/places');
         }
 
 
+        /** Clear out the previous data that was saved for the last location before adding new places data */
         PlacesDoc.deleteMany()
         .then(dropResponse => {
           PlacesDoc.insertMany(docsArr)
@@ -152,10 +143,8 @@ const PlacesDoc = require('../models/places');
             error: error
         })         
       }); 
-    
   })
-
-    }
+}
     /** ================================ Search Google Places ========================================= */
 
     /** ================================ Update Mapbox IsoChrone ========================================= */
@@ -172,16 +161,16 @@ const PlacesDoc = require('../models/places');
         var isoChroneURL = 'https://api.mapbox.com/isochrone/v1/mapbox/'+
         mode+'/'+lng+','+lat+
         '?contours_minutes='+
-        time+'&polygons=true&access_token=pk.eyJ1Ijoib3VyY29sbGVjdGl2ZSIsImEiOiJja2Nmem44bGowbjVyMnJwYndlcHpueTl4In0.ZTTDR6WlA6BNA4JFxbNj4Q';
+        time+'&polygons=true&access_token='+process.env.mapboxkey;
         console.log(isoChroneURL);
-       request(isoChroneURL).on('response', function(response) {
+        request(isoChroneURL).on('response', function(response) {
         console.log(response.statusCode) // 200
       }).pipe(res);
       } 
       else {
         var isoChroneURL = 'https://api.mapbox.com/isochrone/v1/mapbox/'+
         mode+'/'+lng+','+lat+
-        '?contours_minutes=15&polygons=true&access_token=pk.eyJ1Ijoib3VyY29sbGVjdGl2ZSIsImEiOiJja2Nmem44bGowbjVyMnJwYndlcHpueTl4In0.ZTTDR6WlA6BNA4JFxbNj4Q';
+        '?contours_minutes=15&polygons=true&access_token='+process.env.mapboxkey;
          request.get(isoChroneURL).on('response', function(response) {
           console.log(response);
         }).pipe(res); 
