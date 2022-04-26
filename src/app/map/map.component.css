@@ -23,6 +23,7 @@
   right:5px;
   bottom:30px;
   position: absolute;
+  max-width: 300px;
 }
 
 .example-card-charts {
