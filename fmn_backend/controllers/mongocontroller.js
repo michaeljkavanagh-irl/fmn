@@ -38,8 +38,6 @@ const PlacesDoc = require('../models/places');
 
     /** ================================ Search Google Places ========================================= */
     exports.searchPlaces = (req,response,next) => {
-      const apiKey = process.env.GOOGLE_API_KEY;
-
       let lat = req.body.lat;
       let lng = req.body.lng;
       let radius = req.body.radius; 
@@ -48,7 +46,7 @@ const PlacesDoc = require('../models/places');
 
   
       /** Criteria for 15 MIN CITY */
-      /** Groceries , Medical, Culture, Education, Transit, Leisure */
+      /** Groceries , Medical, Culture, Education, Transport, Outdoor */
       var placesURL;
       let urls = [];
       let dataArr = [];
@@ -62,13 +60,6 @@ const PlacesDoc = require('../models/places');
           '&in=circle:'+lng+','+lat+';r='+refactoredRadius+''+
           '&limit=50'+
           '&q='+type+'';
-
-
-         /*  placesURL = 'https://discover.search.hereapi.com/v1/'+
-          'discover?apiKey=20FbZzEd0daRqXGutKvdTnUHAY0k9LLaXKLgVvmuFQU'+
-          '&in=bbox:'+westLng+','+southLat+','+eastLng+','+northLat+
-         '&limit=100'+
-          '&q='+type+''; */
 
         urls.push(placesURL);
          
@@ -117,7 +108,6 @@ const PlacesDoc = require('../models/places');
                 }
               
 
-
             newDoc = {
               title: item.title,
               categories: item.categories,
@@ -131,6 +121,7 @@ const PlacesDoc = require('../models/places');
         }
 
 
+        /** Clear out the previous data that was saved for the last location before adding new places data */
         PlacesDoc.deleteMany()
         .then(dropResponse => {
           PlacesDoc.insertMany(docsArr)
@@ -152,10 +143,8 @@ const PlacesDoc = require('../models/places');
             error: error
         })         
       }); 
-    
   })
-
-    }
+}
     /** ================================ Search Google Places ========================================= */
 
     /** ================================ Update Mapbox IsoChrone ========================================= */
