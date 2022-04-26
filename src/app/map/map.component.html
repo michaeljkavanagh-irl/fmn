@@ -6,12 +6,13 @@
       <div class="example-form">
         <div >
           <input class="example-full-width" type="text" id="autocomplete" placeholder="Search Location" ngx-google-places-autocomplete
-            (onAddressChange)="handleAddressChange($event)" [formControl]="searchMoviesCtrl" />
+            (onAddressChange)="handleAddressChange($event)" [formControl]="searchPlacesCtrl" />
         </div>
           <app-search *ngIf="this.addressLoaded && this.resultsReturned" ></app-search> 
       </div> 
     </div>
 
+    <!-- Spinner used for loading and in progress events-->
     <div class="example-loading-shade"
          *ngIf="fileUploading || loadingInProgress">
       <mat-spinner *ngIf="fileUploading || loadingInProgress">
@@ -20,7 +21,6 @@
         {{spinnerMessage}}
         </div>
     </div>
-
 
       <!-- Button for swithing Map Layers-->
       <button mat-mini-fab [matMenuTriggerFor]="mapMenu"
@@ -38,151 +38,35 @@
                   Transport
             </button>
 
-           <button mat-menu-item (click)="switchMapView('MONOCHROME')" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='MONOCHROME'">
-              <mat-icon>
-                map
-                </mat-icon>
-                  MonoChrome
-            </button>
+                  <button mat-menu-item (click)="switchMapView('MONOCHROME LIGHT')" style="font-size: 13px;
+                  font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='MONOCHROME LIGHT'">
+                    <mat-icon>
+                      map
+                      </mat-icon>
+                        MonoChrome Light
+                  </button>
 
-            <button mat-menu-item (click)="switchMapView('MONOCHROME LIGHT')" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='MONOCHROME LIGHT'">
-              <mat-icon>
-                map
-                </mat-icon>
-                  MonoChrome Light
-            </button>
+                    <button mat-menu-item (click)="switchMapView('SATELLITE')" style="font-size: 13px;
+                    font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='SATELLITE'">
+                      <mat-icon>
+                        map
+                        </mat-icon>
+                          Satellite
+                    </button>
 
-            <button mat-menu-item (click)="switchMapView('SATELLITE')" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='SATELLITE'">
-              <mat-icon>
-                map
-                </mat-icon>
-                  Satellite
-            </button>
-
-            <button mat-menu-item (click)="switchMapView('CONSTRUCTION LOGISTICS')" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='CONSTRUCTION LOGISTICS'">
-              <mat-icon>
-                map
-                </mat-icon>
-                  Construction Logistics
-            </button>
+                      <button mat-menu-item (click)="switchMapView('CONSTRUCTION LOGISTICS')" style="font-size: 13px;
+                      font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='CONSTRUCTION LOGISTICS'">
+                        <mat-icon>
+                          map
+                          </mat-icon>
+                            Construction Logistics
+                      </button>
 
           </mat-menu>
               <mat-icon>
                 map
               </mat-icon>
       </button>
-
-  <!-- GENERAL PURPOSE MAT MENU ======================================-->
-  <!-- GENERAL LAYER MENU-->
-  <button mat-mini-fab [matMenuTriggerFor]="preStyledLayerMenu"
-  class="maplayersbutton"
-  type="button"
-  matTooltip="Show / Hide Map Layers"
-  color="accent" >
-  <mat-menu #preStyledLayerMenu="matMenu">
-
-
-    <mat-label style="font-family: Raleway, sans-serif; font-size: 12px; color: violet">London</mat-label>
-    <button mat-menu-item (click)="switchPreStyledMapLayer('PTAL', $event, null, false)" style="font-size: 13px;
-    font-family: 'Raleway', sans-serif;" >
-      <mat-icon>
-        poll
-        </mat-icon>
-          PTAL
-          <mat-icon class="smallerdatalayerbutton" >{{ptalVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-    </button>
-
-    <button mat-menu-item (click)="switchPreStyledMapLayer('London Tube', $event, null, false)" style="font-size: 13px;
-    font-family: 'Raleway', sans-serif;">
-      <mat-icon>
-        train
-        </mat-icon>
-          London Tube
-          <mat-icon class="smallerdatalayerbutton" >{{tubeLayerVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-    </button>
-
-      <button mat-menu-item (click)="switchPreStyledMapLayer('TfL Cycle Routes', $event, null, false)" style="font-size: 13px;
-        font-family: 'Raleway', sans-serif;" >
-          <mat-icon>
-            directions_bike
-            </mat-icon>
-            TfL Cycle Routes
-            <mat-icon class="smallerdatalayerbutton" >{{tflCycleRoutesVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-        </button>
-
-        <button mat-menu-item (click)="switchPreStyledMapLayer('TfL Cycle Parking', $event, null, false)" style="font-size: 13px;
-        font-family: 'Raleway', sans-serif;">
-          <mat-icon>
-            local_parking
-            </mat-icon>
-            TfL Cycle Parking
-            <mat-icon class="smallerdatalayerbutton" >{{tflCycleParkingVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-          </button>
-
-          <button mat-menu-item (click)="switchPreStyledMapLayer('TfL Accidents 2015-2019', $event, null, false)" style="font-size: 13px;
-          font-family: 'Raleway', sans-serif;">
-            <mat-icon>
-              warning
-              </mat-icon>
-                TfL Accidents 2015-2019
-                <mat-icon class="smallerdatalayerbutton" >{{tflAccidentsVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-
-            <button mat-menu-item (click)="switchPreStyledMapLayer('TfL Accidents 2015-2019 Cluster', $event, null, false)" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;">
-              <mat-icon>
-                warning
-                </mat-icon>
-                TfL Accidents 2015-2019 Cluster
-                  <mat-icon class="smallerdatalayerbutton" >{{tflAccidentsClusterVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-
-            <button mat-menu-item (click)="switchPreStyledMapLayer('London Planning Permission', $event, null, false)" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;">
-              <mat-icon>
-                location_city
-                </mat-icon>
-                London Planning Permission
-                  <mat-icon class="smallerdatalayerbutton" >{{londonPlanningPermissionVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-
-            <button mat-menu-item (click)="switchPreStyledMapLayer('London Bus Stops', $event, null, false)" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;">
-              <mat-icon>
-                directions_bus
-                </mat-icon>
-                London Bus Stop Frequencies
-                  <mat-icon class="smallerdatalayerbutton" >{{busLabelsVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-            <mat-divider></mat-divider>
-            <mat-label style="font-family: Raleway, sans-serif; font-size: 12px; color: violet">Montreal</mat-label>
-            <button mat-menu-item (click)="switchPreStyledMapLayer('Montreal Bixi Stations', $event, null, false)" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;">
-              <mat-icon>
-                directions_bike
-                </mat-icon>
-                Montreal Bixi Stations
-                  <mat-icon class="smallerdatalayerbutton" >{{montrealBixiStationVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-
-            <button mat-menu-item (click)="switchPreStyledMapLayer('Montreal Collision Data', $event, null, false)" style="font-size: 13px;
-            font-family: 'Raleway', sans-serif;">
-              <mat-icon>
-                warning
-                </mat-icon>
-                Montreal Collision Data
-                  <mat-icon class="smallerdatalayerbutton" >{{montrealCollisionDataVisibility ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </button>
-
-  </mat-menu>
-  <mat-icon>
-    layers
-  </mat-icon></button>
-
 
       <div id="coordinates" class="coordinates">
       </div>
@@ -222,300 +106,66 @@
            
           </mat-chip>
         </mat-chip-list>
-    </span>
-      <!-- Pie Chart for Displaying Results-->
-      <!-- <iframe *ngIf=this.addressLoaded style="background: transparent;border: none;border-radius: 2px;" 
-      width="640" height="480" 
-      src="https://charts.mongodb.com/charts-m001-vlqqh/embed/charts?id=5ff63513-7d9a-4baa-9453-b0adedc50a74&maxDataAge=3600&theme=light&autoRefresh=true"></iframe> -->
-    
+      </span>
     </span>
 
 
+
+    <!-- MONGODB CHARTS-->
     <span *ngIf="this.addressLoaded " class="resultsgrid">
 
       <iframe style="background: transparent;border: none;border-radius: 2px;" width="400" height="400" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262a851-1fe8-4db7-8003-814b16094649&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
-      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c606-1fe8-4140-8753-814b1622abda&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+<!--       <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c606-1fe8-4140-8753-814b1622abda&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
       <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c62b-1fe8-425a-8a36-814b1622f6bd&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
       <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c654-a53a-40b7-85f7-7e755d327dd3&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
       <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c674-a53a-4d3e-84a4-7e755d32c78d&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
-      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c6c8-fa53-42c6-80c3-a104c5f8ace9&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
-    <!--     <mat-list>         
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: blue;">train</mat-icon>
-            <h2 [ngStyle]="{'color': (this.busCatCount == 0) ? 'red' : '#414241'}">Transport {{this.busCatCount }}</h2>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: red">local_hospital</mat-icon>
-            <h2 [ngStyle]="{'color': (this.hospitalCatCount == 0) ? 'red' : '#414241'}">Health / Hospital {{this.hospitalCatCount}}</h2>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: grey">local_grocery_store</mat-icon>
-            <h2 [ngStyle]="{'color': (this.groceryCatCount == 0) ? 'red' : '#414241'}">Grocery {{this.groceryCatCount}}</h2>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: yellow">school</mat-icon>
-            <h2 [ngStyle]="{'color': (this.educationCatCount == 0) ? 'red' : '#414241'}">School {{this.educationCatCount}}</h2>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: brown">place</mat-icon>
-            <h2 [ngStyle]="{'color': (this.touristAttCatCount == 0) ? 'red' : '#414241', 'font-family': 'Raleway, sans-serif'}">Places of Interest {{this.touristAttCatCount}}</h2>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item style="background-color: whitesmoke; border-radius: 10px;">
-            <mat-icon style="color: green">terrain</mat-icon>
-            <h2 [ngStyle]="{'color': (this.parkCatCount == 0) ? 'red' : '#414241'}">Outdoor / Recreation {{this.parkCatCount}}</h2>
-          </mat-list-item>
-        </mat-list> -->
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c6c8-fa53-42c6-80c3-a104c5f8ace9&maxDataAge=5&theme=light&autoRefresh=true"></iframe> -->
+
+    </span>
+
+    <ul *ngIf="this.addressLoaded " class="example-card-charts">
+      <li style="display:inline;  bottom:40px; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c606-1fe8-4140-8753-814b1622abda&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c62b-1fe8-425a-8a36-814b1622f6bd&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c654-a53a-40b7-85f7-7e755d327dd3&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c674-a53a-4d3e-84a4-7e755d32c78d&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c6c8-fa53-42c6-80c3-a104c5f8ace9&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="150" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6267b617-8c0a-46e1-8553-a367c748baa5&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+    </ul>
 
 
 
+    <span>
+      <!-- Summary Cards - 15min city or not-->
+      <mat-card *ngIf="this.qualifyingNeighbourhood == 1" class="example-card">  
+        <mat-card-title>Congratulations!</mat-card-title>
+        <mat-card-subtitle>You live in a 15min neighbourhood</mat-card-subtitle>
+        <mat-card-content style="color:blueviolet">
+          <p style="color:#919c91">You live in a neighbourhood where all your basic needs are served. </p>
+          <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
+        </mat-card-content>
+      </mat-card>
 
-
-        <mat-card *ngIf="this.qualifyingNeighbourhood == 1" class="example-card">
-          <mat-card-title>Congratulations!</mat-card-title>
-          <mat-card-subtitle>You live in a 15min neighbourhood</mat-card-subtitle>
-          <mat-card-content style="color:blueviolet">
-            <p style="color:#919c91">You live in a neighbourhood where all your basic needs are served. </p>
-            <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card *ngIf="this.qualifyingNeighbourhood == 2" class="example-card">
-          <mat-card-title>Not quite there yet!</mat-card-title>
-          <mat-card-subtitle>Your neighbourhood does not yet meet all the criteria of a 15min neighbourhood</mat-card-subtitle>
-          <mat-card-content style="color: blueviolet">
-            <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
-          </mat-card-content>
-        </mat-card>
-
-
-
-  </span>
-
-
-
-
-      <!-- Active Layers Legend -->
-      <div id="outercontainer" mat-dialog-container class="outercontainer"  [ngStyle]="{ 'display': this.dataSource.length > 0? '':'none'}">
-        <div class="innercontainer">
-        <!-- The following table shows the data layers that the user has available for selection -->
-        <table *ngIf="!noDataFound" mat-table [dataSource]="dataSource" multiTemplateDataRows class="example-table-container">
-
-
-            <ng-container  matColumnDef="Name">
-              <th mat-header-cell *matHeaderCellDef style="color: violet;"> Active Layers </th>
-                <td mat-cell *matCellDef="let row" style="font-size:x-small"> {{row.name}}
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'London Tube'" >train</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'TfL Accidents 2015-2019' || row.name === 'Montreal Collision Data'" >warning</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'TfL Cycle Routes' || row.name=== 'Montreal Bixi Stations'" >directions_bike</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'TfL Cycle Parking'" >directions_bike</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'TfL Cycle Parking'" >local_parking</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'London Planning Permission'" >house</mat-icon>
-                <mat-icon class="smallerdatalayerbutton" *ngIf="row.name === 'London Bus Stops'" >directions_bus</mat-icon>
-              </td>
-            </ng-container>
-
-
-                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-                    <ng-container matColumnDef="expandedDetail"  >
-                      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" >
-                        <div class="example-element-detail"
-                            [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
-
-                          <mat-list *ngIf="row.name==='London Tube' && this.tubeLayerVisibility">
-                          <div><span style="background-color: #B36305"></span>Bakerloo</div>
-                          <div><span style="background-color: #E32017"></span>Central</div>
-                          <div><span style="background-color: #FFD300"></span>Circle</div>
-                          <div><span style="background-color: #00782A"></span>District</div>
-                          <div><span style="background-color: #00A4A7"></span>DLR</div>
-                          <div><span style="background-color: #F3A9BB"></span>Hammersmith and City</div>
-                          <div><span style="background-color:	#9B0056"></span>Metropolitan</div>
-                          <div><span style="background-color: #000000"></span>Northern</div>
-                          <div><span style="background-color: #003688"></span>Picadilly</div>
-                          <div><span style="background-color: #0098D4"></span>Victoria</div>
-                          <div><span style="background-color: #95CDBA"></span>Waterloo and City</div>
-                          </mat-list>
-
-
-                          <mat-list *ngIf="row.name === 'TfL Cycle Routes' && this.tflCycleRoutesVisibility">
-                            <div><span style="background-color: #011a89"></span>Proposed Cycle Superhighway</div>
-                            <div><span style="background-color: #a033c1"></span>Proposed Quietway</div>
-                            <div><span style="background-color: #25781c"></span>Cycleway</div>
-                            <!-- <div><span style="background-color: #000000"></span>Other Route</div> -->
-                          </mat-list>
-
-                          <mat-list *ngIf="row.name === 'TfL Accidents 2015-2019' && this.tflAccidentsVisibility">
-                            <div><span style="background-color: #6d93f3"></span>Slight</div>
-                            <div><span style="background-color: #f07070"></span>Serious</div>
-                            <div><span style="background-color: #312626"></span>Fatal</div>
-                            <!-- <div><span style="background-color: #000000"></span>Other</div> -->
-                          </mat-list>
-
-                          <!-- GREEN RAMP -->
-                          <mat-list *ngIf="row.colourRamp === 'greenramp'">
-                            <div><span style="background-color: #f7fcf5"></span>Sample 1</div>
-                            <div><span style="background-color: #e5f5e0"></span>Sample 2</div>
-                            <div><span style="background-color: #c7e9c0"></span>Sample 3</div>
-                            <div><span style="background-color: #a1d99b"></span>Sample 4</div>
-                            <div><span style="background-color: #74c476"></span>Sample 5</div>
-                            <div><span style="background-color: #41ab5d"></span>Sample 6</div>
-                            <div><span style="background-color: #238b45"></span>Sample 7</div>
-                            <div><span style="background-color: #006d2c"></span>Sample 8</div>
-                            <div><span style="background-color: #00441b"></span>Sample 9</div>
-                          </mat-list>
-
-                           <!-- RED RAMP -->
-                           <mat-list  *ngIf="row.colourRamp === 'redramp'">
-                            <div><span style="background-color: #fff5f0"></span>Sample 1</div>
-                            <div><span style="background-color: #fee0d2"></span>Sample 2</div>
-                            <div><span style="background-color: #fcbba1"></span>Sample 3</div>
-                            <div><span style="background-color: #fc9272"></span>Sample 4</div>
-                            <div><span style="background-color: #fb6a4a"></span>Sample 5</div>
-                            <div><span style="background-color: #ef3b2c"></span>Sample 6</div>
-                            <div><span style="background-color: #cb181d"></span>Sample 7</div>
-                            <div><span style="background-color: #a50f15"></span>Sample 8</div>
-                            <div><span style="background-color: #67000d"></span>Sample 9</div>
-                          </mat-list>
-
-                           <!-- PINK RAMP -->
-                           <mat-list  *ngIf="row.colourRamp === 'pinkramp'">
-                            <div><span style="background-color: #fff7f3"></span>Sample 1</div>
-                            <div><span style="background-color: #fde0dd"></span>Sample 2</div>
-                            <div><span style="background-color: #fcc5c0"></span>Sample 3</div>
-                            <div><span style="background-color: #fa9fb5"></span>Sample 4</div>
-                            <div><span style="background-color: #f768a1"></span>Sample 5</div>
-                            <div><span style="background-color: #dd3497"></span>Sample 6</div>
-                            <div><span style="background-color: #ae017e"></span>Sample 7</div>
-                            <div><span style="background-color: #7a0177"></span>Sample 8</div>
-                            <div><span style="background-color: #49006a"></span>Sample 9</div>
-                          </mat-list>
-
-                          <!-- BLUE RAMP -->
-                          <mat-list  *ngIf="row.colourRamp === 'blueramp'">
-                            <div><span style="background-color: #ffffd9"></span>Sample 1</div>
-                            <div><span style="background-color: #edf8b1"></span>Sample 2</div>
-                            <div><span style="background-color: #c7e9b4"></span>Sample 3</div>
-                            <div><span style="background-color: #7fcdbb"></span>Sample 4</div>
-                            <div><span style="background-color: #41b6c4"></span>Sample 5</div>
-                            <div><span style="background-color: #1d91c0"></span>Sample 6</div>
-                            <div><span style="background-color: #225ea8"></span>Sample 7</div>
-                            <div><span style="background-color: #253494"></span>Sample 8</div>
-                            <div><span style="background-color: #081d58"></span>Sample 9</div>
-                          </mat-list>
-
-                            <!-- YELLOW RAMP -->
-                            <mat-list  *ngIf="row.colourRamp === 'yellowramp'">
-                            <div><span style="background-color: #ffffcc"></span>Sample 1</div>
-                            <div><span style="background-color: #ffeda0"></span>Sample 2</div>
-                            <div><span style="background-color: #fed976"></span>Sample 3</div>
-                            <div><span style="background-color: #feb24c"></span>Sample 4</div>
-                            <div><span style="background-color: #fd8d3c"></span>Sample 5</div>
-                            <div><span style="background-color: #fc4e2a"></span>Sample 6</div>
-                            <div><span style="background-color: #e31a1c"></span>Sample 7</div>
-                            <div><span style="background-color: #bd0026"></span>Sample 8</div>
-                            <div><span style="background-color: #800026"></span>Sample 9</div>
-                          </mat-list>
-
-                          <!-- BLUE RED RAMP -->
-                          <mat-list  *ngIf="row.colourRamp === 'blueredramp'">
-                            <div><span style="background-color: #d53e4f"></span>Sample 1</div>
-                            <div><span style="background-color: #f46d43"></span>Sample 2</div>
-                            <div><span style="background-color: #fdae61"></span>Sample 3</div>
-                            <div><span style="background-color: #fee08b"></span>Sample 4</div>
-                            <div><span style="background-color: #ffffbf"></span>Sample 5</div>
-                            <div><span style="background-color: #e6f598"></span>Sample 6</div>
-                            <div><span style="background-color: #abdda4"></span>Sample 7</div>
-                            <div><span style="background-color: #66c2a5"></span>Sample 8</div>
-                            <div><span style="background-color: #3288bd"></span>Sample 9</div>
-                          </mat-list>
-
-                          <!-- RED GREEN RAMP -->
-                          <mat-list  *ngIf="row.colourRamp === 'redgreenramp'">
-                            <div><span style="background-color: #d73027"></span>Sample 1</div>
-                            <div><span style="background-color: #f46d43"></span>Sample 2</div>
-                            <div><span style="background-color: #fdae61"></span>Sample 3</div>
-                            <div><span style="background-color: #fee08b"></span>Sample 4</div>
-                            <div><span style="background-color: #ffffbf"></span>Sample 5</div>
-                            <div><span style="background-color: #ffffbf"></span>Sample 6</div>
-                            <div><span style="background-color: #a6d96a"></span>Sample 7</div>
-                            <div><span style="background-color: #66bd63"></span>Sample 8</div>
-                            <div><span style="background-color: #1a9850"></span>Sample 9</div>
-                          </mat-list>
-
-                          <!-- FLOWER PALETTE -->
-                          <mat-list  *ngIf="row.colourPalette === 'flowerpalette'">
-                            <div><span style="background-color: #e60049"></span>Sample 1</div>
-                            <div><span style="background-color: #0bb4ff"></span>Sample 2</div>
-                            <div><span style="background-color: #50e991"></span>Sample 3</div>
-                            <div><span style="background-color: #e6d800"></span>Sample 4</div>
-                            <div><span style="background-color: #9b19f5"></span>Sample 5</div>
-                            <div><span style="background-color: #ffa300"></span>Sample 6</div>
-                            <div><span style="background-color: #dc0ab4"></span>Sample 7</div>
-                            <div><span style="background-color: #b3d4ff"></span>Sample 8</div>
-                            <div><span style="background-color: #00bfa0"></span>Sample 9</div>
-                          </mat-list>
-
-                           <!-- EARTH PALETTE -->
-                           <mat-list  *ngIf="row.colourPalette === 'earthpalette'">
-                            <div><span style="background-color: #a03500"></span>Sample 1</div>
-                            <div><span style="background-color: #d9b400"></span>Sample 2</div>
-                            <div><span style="background-color: #3264c8"></span>Sample 3</div>
-                            <div><span style="background-color: #72b38e"></span>Sample 4</div>
-                            <div><span style="background-color: #986ba1"></span>Sample 5</div>
-                            <div><span style="background-color: #b9a087"></span>Sample 6</div>
-                            <div><span style="background-color: #4c91bf"></span>Sample 7</div>
-                            <div><span style="background-color: #a5d236"></span>Sample 8</div>
-                            <div><span style="background-color: #96aedc"></span>Sample 9</div>
-                          </mat-list>
-
-                           <!-- MOVEMENT PALETTE -->
-                           <mat-list  *ngIf="row.colourPalette === 'movementpalette'">
-                            <div><span style="background-color: #ed5151"></span>Sample 1</div>
-                            <div><span style="background-color: #149ece"></span>Sample 2</div>
-                            <div><span style="background-color: #a7c636"></span>Sample 3</div>
-                            <div><span style="background-color: #9e559c"></span>Sample 4</div>
-                            <div><span style="background-color: #fc921f"></span>Sample 5</div>
-                            <div><span style="background-color: #ffde3e"></span>Sample 6</div>
-                            <div><span style="background-color: #f789d8"></span>Sample 7</div>
-                            <div><span style="background-color: #b7814a"></span>Sample 8</div>
-                            <div><span style="background-color: #3caf99"></span>Sample 9</div>
-                          </mat-list>
-
-                          <!-- PASTEL PALETTE -->
-                          <mat-list  *ngIf="row.colourPalette === 'pastelpalette'">
-                            <div><span style="background-color: #fd7f6f"></span>Sample 1</div>
-                            <div><span style="background-color: #7eb0d5"></span>Sample 2</div>
-                            <div><span style="background-color: #b2e061"></span>Sample 3</div>
-                            <div><span style="background-color: #bd7ebe"></span>Sample 4</div>
-                            <div><span style="background-color: #ffb55a"></span>Sample 5</div>
-                            <div><span style="background-color: #ffee65"></span>Sample 6</div>
-                            <div><span style="background-color: #beb9db"></span>Sample 7</div>
-                            <div><span style="background-color: #fdcce5"></span>Sample 8</div>
-                            <div><span style="background-color: #8bd3c7"></span>Sample 9</div>
-                          </mat-list>
-
-
-                        </div>
-                      </td>
-                    </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-                      class="example-element-row"
-                      [class.example-expanded-row]="expandedElement === element"
-                      (click)="expandedElement = expandedElement === element ? null : element">
-                  </tr>
-                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-          </table>
-          </div>
-      </div>
-
-      
+      <mat-card *ngIf="this.qualifyingNeighbourhood == 2" class="example-card">
+        <mat-card-title>Not quite there yet!</mat-card-title>
+        <mat-card-subtitle>Your neighbourhood does not yet meet all the criteria of a 15min neighbourhood</mat-card-subtitle>
+        <mat-card-content style="color: blueviolet">
+          <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
+        </mat-card-content>
+      </mat-card>
+    </span>
 
      <!--  <img src="../assets/images/OUR COLLECTIVE LOGO_Newwhite-02-small.png" class="oc-image"> -->
-      <img src="../assets/images/mongo_logo.png" class="oc-image">
+    <!--   <img src="../assets/images/mongo_logo.png" class="oc-image"> -->
 </div>

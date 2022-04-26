@@ -4,20 +4,11 @@ const https = require('https');
 const request = require('request');
 const mongoose = require('mongoose');
 const TAG = 'MongoController: ';
-const CommentDoc = require('../models/comment');
 const PlacesDoc = require('../models/places');
-const { time, Console } = require('console');
-const fetch = require('node-fetch');
 
     /** ================================ Search Project Content ========================================= */
     exports.searchThreadContent = (req,res,next) => {
-      //console.log('test');
         const searchKey = req.query.value;
-       /*  String.prototype.toObjectId = function() {
-          var ObjectId = (require('mongoose').Types.ObjectId);
-          return new ObjectId(this.toString());
-        };
-        var id = mongoose.Types.ObjectId(userId); */
         console.log(req.query);
         PlacesDoc.aggregate([
           {   
@@ -26,7 +17,6 @@ const fetch = require('node-fetch');
                   "path": "title",
                   "query": searchKey
                 }
-              
             },
           },
         ])
@@ -40,7 +30,7 @@ const fetch = require('node-fetch');
         })
         .catch(error => {
           console.log(error);
-          res.status(500).json({error:'Something went wrong fetching places'});
+          res.status(500).json({error:'Oooops, something went wrong fetching places'});
         })
       }
     /** ================================ Search Project Content ========================================= */
@@ -98,7 +88,6 @@ const fetch = require('node-fetch');
         for (let category of dataArr) {
           for (let item of category.items) {
 
-
               var mastercategory;
                 if (item.categories === undefined) {
                   mastercategory = 'Other';
@@ -120,13 +109,12 @@ const fetch = require('node-fetch');
                 else if (item.categories[0].name === 'Convenience Store' || item.categories[0].name === 'Grocery') {
                   mastercategory = 'Grocery';
                 }
-                else if (item.categories[0].name === 'Tourist Attraction') {
+                else if (item.categories[0].name === 'Tourist Attraction' || item.categories[0].name === 'Historical Monument' || item.categories[0].name === 'Landmark Attraction') {
                   mastercategory = 'Tourist Attraction';
                 }
                 else {
                   mastercategory = 'Other';
                 }
-              
               
 
 
@@ -147,7 +135,6 @@ const fetch = require('node-fetch');
         .then(dropResponse => {
           PlacesDoc.insertMany(docsArr)
             .then(mongoresponse => {     
-                //console.log(mongoresponse);  
                 response.status(200).json({categories:dataArr});
             })
             .catch(error => {
@@ -179,7 +166,6 @@ const fetch = require('node-fetch');
       var lat = req.query.lat;
       var mode = req.query.mode; //E.G. Walking, Cycling or Driving
       var time = req.query.time; //E.G. 10mins, 15mins or 20mins
-      //pk.eyJ1Ijoib3VyY29sbGVjdGl2ZSIsImEiOiJja2Nmem44bGowbjVyMnJwYndlcHpueTl4In0.ZTTDR6WlA6BNA4JFxbNj4Q
 
       /** MapBox Isochrone Option */
       if (req.query.time) {

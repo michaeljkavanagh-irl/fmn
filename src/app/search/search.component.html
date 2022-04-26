@@ -6,49 +6,13 @@
         <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
           <mat-icon (click)="removeResults()">close</mat-icon>
         </button>
-        <!-- <button class="hidebutton" [matMenuTriggerFor]="searchMenu" 
-        #searchMenuTrigger="matMenuTrigger">
-      </button> -->
-
 
       <mat-list role="list">
-        <!--    <mat-list-item role="listitem">Item 1</mat-list-item>
-          -->
           <span *ngFor="let row of dataSource; let i=index" >
-           <mat-list-item role="listitem"  >{{row}}</mat-list-item>
            <mat-list-item role="listitem"  >{{row}}</mat-list-item>
            <hr>
          </span>
- 
          </mat-list>
-
-
       </mat-form-field>  
-
-      <!-- <mat-menu #searchMenu="matMenu" (menuOpened)="isOpened($event)"> -->
-
-
-
-       
-
-
-      
-
-       
-
-
-
-            <!--   <div style="font-weight: bold; color: violet;" >
-                {{row.threadtitle}}
-              </div>
-              <div >
-                <mat-icon >chat</mat-icon>
-                {{row.creatorName}}
-                :
-                {{row.comment}}
-              </div>
-            </span> -->
-      
-     <!--  </mat-menu> -->
 
      

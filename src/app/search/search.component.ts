@@ -1,6 +1,5 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject  } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { MapService } from '../map/map.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   dataSource: any[] = [];
   displayedColumns: string[] = ['Comment'];
   searchResultsFound = false;
-
+  TAG = ' MFN~SearchComponent: ';
     /** Master Unsubscribe Listener. Will be called 
    * from OnDestroy hook and each subscription has 
    * a corresponding takeUntil for memory management
@@ -42,6 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   removeResults() {
     this.dataSource = [];
   }
+
   isOpened(event: any) {
     console.log(event);
   }
@@ -49,7 +49,5 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDestroy$.next();
   }
-
-
 
 }
