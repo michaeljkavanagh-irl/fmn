@@ -1,5 +1,5 @@
 /fmn_backend/node_modules
-**.env
+/fmn_backend/.env
 node_modules
 dist
 
