@@ -20,7 +20,17 @@
 .example-card {
   border-radius: 15px;
   font-size: small;
-  top:10px;
+  right:5px;
+  bottom:30px;
+  position: absolute;
+}
+
+.example-card-charts {
+  border-radius: 15px;
+  font-size: small;
+  bottom:20px;
+  align-items: center;
+  position: absolute;
 }
 
 .example-form{
