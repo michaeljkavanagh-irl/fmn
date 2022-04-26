@@ -1,0 +1,14 @@
+version: '3'
+services:
+  fmn:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "6001:4200"
+    restart: always
+  fmn_backend:
+    build: ./fmn_backend/
+    ports:
+      - "8081:8081" 
+    restart: always

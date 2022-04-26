@@ -1,0 +1,171 @@
+
+<div class="container" appDnd >
+  <input type="file" #fileDropRef id="fileDropRef" multiple />
+ 
+    <div class="map" id="map" class="match-parent">
+      <div class="example-form">
+        <div >
+          <input class="example-full-width" type="text" id="autocomplete" placeholder="Search Location" ngx-google-places-autocomplete
+            (onAddressChange)="handleAddressChange($event)" [formControl]="searchPlacesCtrl" />
+        </div>
+          <app-search *ngIf="this.addressLoaded && this.resultsReturned" ></app-search> 
+      </div> 
+    </div>
+
+    <!-- Spinner used for loading and in progress events-->
+    <div class="example-loading-shade"
+         *ngIf="fileUploading || loadingInProgress">
+      <mat-spinner *ngIf="fileUploading || loadingInProgress">
+      </mat-spinner>
+      <div style="position: relative; top: 7px; right:99px; font-family: 'Raleway', sans-serif; font-size: 16px; color:palevioletred;">
+        {{spinnerMessage}}
+        </div>
+    </div>
+
+      <!-- Button for swithing Map Layers-->
+      <button mat-mini-fab [matMenuTriggerFor]="mapMenu"
+        class="mapswitchbutton"
+        type="button"
+        matTooltip="Switch Map View"
+        color="accent" >
+          <mat-menu #mapMenu="matMenu">
+
+            <button mat-menu-item (click)="switchMapView('TRANSPORT')" style="font-size: 13px;
+            font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='TRANSPORT'">
+              <mat-icon>
+                map
+                </mat-icon>
+                  Transport
+            </button>
+
+                  <button mat-menu-item (click)="switchMapView('MONOCHROME LIGHT')" style="font-size: 13px;
+                  font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='MONOCHROME LIGHT'">
+                    <mat-icon>
+                      map
+                      </mat-icon>
+                        MonoChrome Light
+                  </button>
+
+                    <button mat-menu-item (click)="switchMapView('SATELLITE')" style="font-size: 13px;
+                    font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='SATELLITE'">
+                      <mat-icon>
+                        map
+                        </mat-icon>
+                          Satellite
+                    </button>
+
+                      <button mat-menu-item (click)="switchMapView('CONSTRUCTION LOGISTICS')" style="font-size: 13px;
+                      font-family: 'Raleway', sans-serif;" [disabled]="this.mapService.getMapType()==='CONSTRUCTION LOGISTICS'">
+                        <mat-icon>
+                          map
+                          </mat-icon>
+                            Construction Logistics
+                      </button>
+
+          </mat-menu>
+              <mat-icon>
+                map
+              </mat-icon>
+      </button>
+
+      <div id="coordinates" class="coordinates">
+      </div>
+
+    
+      <span class="modeselectouter">
+      <h2 style="color: #414241; font-weight: bold; font-family: Raleway, sans-serif; font-size: 25px;">Do you live in a 15 Min Neighbourhood?</h2>
+      <h3 style="color: #414241; font-weight: bold; font-family: Raleway, sans-serif;">Mode:</h3>
+      <mat-button-toggle-group class="modeselect" name="favoriteColor" aria-label="Favorite Color">
+        <mat-button-toggle class="walking" value="walking" (click)="changeMode('walking')">
+          Walking
+          <mat-icon>directions_walk</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle class="cycling" value="cycling" (click)="changeMode('cycling')">
+          Cycling
+          <mat-icon>directions_bike</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle class="scooter" value="scooter" (click)="changeMode('scooter')">
+          E-Scooter
+          <mat-icon>explicit</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <span class="chiplist">
+        <mat-chip-list
+        class="example-chip"
+        cdkDropList 
+        cdkDropListOrientation="horizontal"
+       >
+          <mat-chip
+            [ngStyle]="{'background-color': (this.currentTimeString === time.time) ? 'violet' : '#414241', 'color': (this.currentTimeString === time.time) ? 'whitesmoke': 'olivedrab'}"
+            class="example-box"
+            cdkDrag
+            (click)="changeTime(time.time)"
+            *ngFor="let time of times">
+            {{time.time}}
+           
+          </mat-chip>
+        </mat-chip-list>
+      </span>
+    </span>
+
+
+
+    <!-- MONGODB CHARTS-->
+    <span *ngIf="this.addressLoaded " class="resultsgrid">
+
+      <iframe style="background: transparent;border: none;border-radius: 2px;" width="300" height="300" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262a851-1fe8-4db7-8003-814b16094649&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+<!--       <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c606-1fe8-4140-8753-814b1622abda&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c62b-1fe8-425a-8a36-814b1622f6bd&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c654-a53a-40b7-85f7-7e755d327dd3&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c674-a53a-4d3e-84a4-7e755d32c78d&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="180" height="180" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c6c8-fa53-42c6-80c3-a104c5f8ace9&maxDataAge=5&theme=light&autoRefresh=true"></iframe> -->
+
+    </span>
+
+    <ul *ngIf="this.addressLoaded " class="example-card-charts">
+      <li style="display:inline;  bottom:40px; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c606-1fe8-4140-8753-814b1622abda&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c62b-1fe8-425a-8a36-814b1622f6bd&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline; ">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c654-a53a-40b7-85f7-7e755d327dd3&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c674-a53a-4d3e-84a4-7e755d32c78d&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6262c6c8-fa53-42c6-80c3-a104c5f8ace9&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+      <li style="display:inline">
+        <iframe style="background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);" width="120" height="150" src="https://charts.mongodb.com/charts-project-0-eylso/embed/charts?id=6267b617-8c0a-46e1-8553-a367c748baa5&maxDataAge=5&theme=light&autoRefresh=true"></iframe>
+      </li>
+    </ul>
+
+
+
+    <span>
+      <!-- Summary Cards - 15min city or not-->
+      <mat-card *ngIf="this.qualifyingNeighbourhood == 1" class="example-card">  
+        <mat-card-title>Congratulations!</mat-card-title>
+        <mat-card-subtitle>You live in a 15min neighbourhood</mat-card-subtitle>
+        <mat-card-content style="color:blueviolet">
+          <p style="color:#919c91">You live in a neighbourhood where all your basic needs are served. </p>
+          <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card *ngIf="this.qualifyingNeighbourhood == 2" class="example-card">
+        <mat-card-title>Not quite there yet!</mat-card-title>
+        <mat-card-subtitle>Your neighbourhood does not yet meet all the criteria of a 15min neighbourhood</mat-card-subtitle>
+        <mat-card-content style="color: blueviolet">
+          <p style="color: #f004f0"><a (click)="goToLink('https://www.forbes.com/sites/carltonreid/2020/01/21/phasing-out-cars-key-to-paris-mayors-plans-for-15-minute-city/?sh=769ff96c6952')">What is a 15min neighbourhood? Want to know more?</a></p>
+        </mat-card-content>
+      </mat-card>
+    </span>
+
+     <!--  <img src="../assets/images/OUR COLLECTIVE LOGO_Newwhite-02-small.png" class="oc-image"> -->
+    <!--   <img src="../assets/images/mongo_logo.png" class="oc-image"> -->
+</div>

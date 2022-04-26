@@ -1,0 +1,18 @@
+      <mat-form-field  >
+        <mat-label>Search Places
+          <mat-icon>search</mat-icon>
+        </mat-label>
+        <input style="color: black" matInput type="text" (input)="updateSearch($event)" [(ngModel)]="value">
+        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon (click)="removeResults()">close</mat-icon>
+        </button>
+
+      <mat-list role="list">
+          <span *ngFor="let row of dataSource; let i=index" >
+           <mat-list-item role="listitem"  >{{row}}</mat-list-item>
+           <hr>
+         </span>
+         </mat-list>
+      </mat-form-field>  
+
+     
