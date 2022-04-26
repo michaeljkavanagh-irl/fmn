@@ -13,7 +13,7 @@ This application is NOT an official MongoDB product but rather a free (largely u
 The application has some inherent challenges both conceptually and technically. 
 
 Technical 
-1) There are gaps in coverage where an adequate response from the Places API is not retrieved - and hence no results are displayed for certain locations.
+1) Language tranlations for the different category types (School, Hospital, Supermarket etc)
 2) Since the ISOChrone Polygon and the places are retrived from different vendors (Mapbox & HERE Technologies) it's possible some location data does lineup 100% (E.G. places which fall outside or inside the polygon)
 
 Conceptual:
