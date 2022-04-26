@@ -54,9 +54,9 @@ const PlacesDoc = require('../models/places');
       let differentTypes = ['Education Facility', 'Park-Recreation Area', 'Sports Facility/Venue', 'Convenience Store', 
       'Hospital or Health Care Facility', 'Tourist Attraction', 'Bus Stop', 'Train Station'];
         for (let type of differentTypes) {
-          console.log('creating URL for: '+type+ ' with a radius of: '+radius);
+          console.log(TAG+ 'creating URL for: '+type+ ' with a radius of: '+radius);
           placesURL = 'https://discover.search.hereapi.com/v1/'+
-          'discover?apiKey=20FbZzEd0daRqXGutKvdTnUHAY0k9LLaXKLgVvmuFQU'+
+          'discover?apiKey='+process.env.placesAPIkey+
           '&in=circle:'+lng+','+lat+';r='+refactoredRadius+''+
           '&limit=50'+
           '&q='+type+'';
@@ -161,16 +161,16 @@ const PlacesDoc = require('../models/places');
         var isoChroneURL = 'https://api.mapbox.com/isochrone/v1/mapbox/'+
         mode+'/'+lng+','+lat+
         '?contours_minutes='+
-        time+'&polygons=true&access_token=pk.eyJ1Ijoib3VyY29sbGVjdGl2ZSIsImEiOiJja2Nmem44bGowbjVyMnJwYndlcHpueTl4In0.ZTTDR6WlA6BNA4JFxbNj4Q';
+        time+'&polygons=true&access_token='+process.env.mapboxkey;
         console.log(isoChroneURL);
-       request(isoChroneURL).on('response', function(response) {
+        request(isoChroneURL).on('response', function(response) {
         console.log(response.statusCode) // 200
       }).pipe(res);
       } 
       else {
         var isoChroneURL = 'https://api.mapbox.com/isochrone/v1/mapbox/'+
         mode+'/'+lng+','+lat+
-        '?contours_minutes=15&polygons=true&access_token=pk.eyJ1Ijoib3VyY29sbGVjdGl2ZSIsImEiOiJja2Nmem44bGowbjVyMnJwYndlcHpueTl4In0.ZTTDR6WlA6BNA4JFxbNj4Q';
+        '?contours_minutes=15&polygons=true&access_token='+process.env.mapboxkey;
          request.get(isoChroneURL).on('response', function(response) {
           console.log(response);
         }).pipe(res); 
