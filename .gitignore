@@ -3,3 +3,4 @@ dist
 /fmn_backend/.DS_Store
 /fmn_backend/.env
 /fmn_backend/node_modules
+.DS_Store
