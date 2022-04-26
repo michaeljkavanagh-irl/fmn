@@ -32,7 +32,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
   map: mapboxgl;
   value = '';
-  trafficLayerOptions = ['BUS_Labels', 'london_tube', 'London_Bus_Route'];
   mapStyle: string;
   baseUrl: string;
   lat = 51.515098; /** start with default coordinates in London */
@@ -235,150 +234,57 @@ export class MapComponent implements OnInit, OnDestroy {
          * the pre styled layers in the map
          */
 
-          this.map.on('mouseenter', 'PTAL', () => {
+          this.map.on('mouseenter', 'park_layer', () => {
             this.map.getCanvas().style.cursor = 'pointer';
           });
 
-            this.map.on('mouseleave', 'PTAL', () => {
+            this.map.on('mouseleave', 'park_layer', () => {
               this.map.getCanvas().style.cursor = '';
             });
 
-              this.map.on('mouseenter', 'London Tube', () => {
+              this.map.on('mouseenter', 'school_layer', () => {
                 this.map.getCanvas().style.cursor = 'pointer';
               });
 
-                this.map.on('mouseleave', 'London Tube', () => {
+                this.map.on('mouseleave', 'school_layer', () => {
                   this.map.getCanvas().style.cursor = '';
                 });
 
-                this.map.on('mouseenter', 'London Bus Stops', () => {
+                this.map.on('mouseenter', 'supermarket_layer', () => {
                   this.map.getCanvas().style.cursor = 'pointer';
                 });
 
-                  this.map.on('mouseleave', 'London Bus Stops', () => {
+                  this.map.on('mouseleave', 'supermarket_layer', () => {
                     this.map.getCanvas().style.cursor = '';
                   });
 
-                    this.map.on('mouseenter', 'TfL Accidents 2015-2019', () => {
+                    this.map.on('mouseenter', 'train_station_layer', () => {
                       this.map.getCanvas().style.cursor = 'pointer';
                     });
 
-                      this.map.on('mouseleave', 'TfL Accidents 2015-2019', () => {
+                      this.map.on('mouseleave', 'train_station_layer', () => {
                         this.map.getCanvas().style.cursor = '';
                       });
 
-                      this.map.on('mouseenter', 'TfL Cycle Routes', () => {
+                      this.map.on('mouseenter', 'hospital_layer', () => {
                         this.map.getCanvas().style.cursor = 'pointer';
                       });
 
-                        this.map.on('mouseleave', 'TfL Cycle Routes', () => {
+                        this.map.on('mouseleave', 'hospital_layer', () => {
                           this.map.getCanvas().style.cursor = '';
                         });
 
-                          this.map.on('mouseenter', 'London Planning Permission', () => {
-                            this.map.getCanvas().style.cursor = 'pointer';
-                          });
-
-                            this.map.on('mouseleave', 'London Planning Permission', () => {
-                              this.map.getCanvas().style.cursor = '';
-                            });
-
-                              this.map.on('mouseenter', 'TfL Cycle Parking', () => {
-                                this.map.getCanvas().style.cursor = 'pointer';
-                              });
-
-                                this.map.on('mouseleave', 'TfL Cycle Parking', () => {
-                                  this.map.getCanvas().style.cursor = '';
-                                });
-
-                                this.map.on('mouseenter', 'park_layer', () => {
-                                  this.map.getCanvas().style.cursor = 'pointer';
-                                });
-
-                                  this.map.on('mouseleave', 'park_layer', () => {
-                                    this.map.getCanvas().style.cursor = '';
-                                  });
-
-                                    this.map.on('mouseenter', 'school_layer', () => {
-                                      this.map.getCanvas().style.cursor = 'pointer';
-                                    });
-
-                                      this.map.on('mouseleave', 'school_layer', () => {
-                                        this.map.getCanvas().style.cursor = '';
-                                      });
-
-                                      this.map.on('mouseenter', 'supermarket_layer', () => {
-                                        this.map.getCanvas().style.cursor = 'pointer';
-                                      });
-  
-                                        this.map.on('mouseleave', 'supermarket_layer', () => {
-                                          this.map.getCanvas().style.cursor = '';
-                                        });
-
-                                        this.map.on('mouseenter', 'train_station_layer', () => {
-                                          this.map.getCanvas().style.cursor = 'pointer';
-                                        });
-    
-                                          this.map.on('mouseleave', 'train_station_layer', () => {
-                                            this.map.getCanvas().style.cursor = '';
-                                          });
-
-                                          this.map.on('mouseenter', 'hospital_layer', () => {
-                                            this.map.getCanvas().style.cursor = 'pointer';
-                                          });
-      
-                                            this.map.on('mouseleave', 'hospital_layer', () => {
-                                              this.map.getCanvas().style.cursor = '';
-                                            });
-
-                                            this.map.on('mouseenter', 'tourist_attraction_layer', () => {
-                                              this.map.getCanvas().style.cursor = 'pointer';
-                                            });
-        
-                                              this.map.on('mouseleave', 'tourist_attraction_layer', () => {
-                                                this.map.getCanvas().style.cursor = '';
-                                              });
-
-        /**
-         * Need to have listeners for each of the pre styled layers
-         * when clicked to display the popup with the Meta Data
-         */
-        this.map.on('click', 'TfL Accidents 2015-2019', (e) => {
-          this.buildPopup(e, 'TfL Accidents 2015-2019');
-          });
-
-          this.map.on('click', 'PTAL', (e) => {
-            this.buildPopup(e, 'PTAL');
-            });
-
-            this.map.on('click', 'London Bus Stops', (e) => {
-              this.buildPopup(e, 'London Bus Stops');
-              });
-
-              this.map.on('click', 'TfL Cycle Routes', (e) => {
-                this.buildPopup(e, 'TfL Cycle Routes');
-                });
-
-                this.map.on('click', 'London Tube', (e) => {
-                  this.buildPopup(e, 'London Tube');
-                  });
-
-                  this.map.on('click', 'London Planning Permission', (e) => {
-                    this.buildPopup(e, 'London Planning Permission');
-                    });
-
-                    this.map.on('click', 'TfL Cycle Parking', (e) => {
-                      this.buildPopup(e, 'TfL Cycle Parking');
-                      });
-
-                      this.map.on('click', 'Montreal Collision Data', (e) => {
-                        this.buildPopup(e, 'Montreal Collision Data');
+                        this.map.on('mouseenter', 'tourist_attraction_layer', () => {
+                          this.map.getCanvas().style.cursor = 'pointer';
                         });
 
-                        this.map.on('click', 'Montreal Bixi Stations', (e) => {
-                          this.buildPopup(e, 'Montreal Bixi Stations');
+                          this.map.on('mouseleave', 'tourist_attraction_layer', () => {
+                            this.map.getCanvas().style.cursor = '';
                           });
 
+                          /**
+                           * Then build the popup window for each one.
+                           */
                           this.map.on('click', 'park_layer', (e) => {
                             this.buildPopup(e, 'park_layer');
                             });
