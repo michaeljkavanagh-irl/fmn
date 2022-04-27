@@ -97,7 +97,7 @@ export class MapService implements OnDestroy{
       const queryParams = `?value=${this.searchString}`;
       return  this.http.get<any>(environment.serverUrl + 'api/data/places/search' + queryParams)
     .pipe(map(responseDocs => 
-        responseDocs.results.map(({title, address}) => ({title, address}) )))  
+        responseDocs.results.map(({title, address, distance}) => ({title, address, distance}) )))  
 
     }
   }
