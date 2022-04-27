@@ -184,14 +184,9 @@ export class MapComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(googleResponses => {
           console.log(googleResponses);
-          
-          if (this.resultsReturned) {
-            this.clearMarkers();
-            this.resultsReturned = false;
-          } else {
-            this.resultsReturned = true;
-          }
-            this.addHereResponseMarkers(googleResponses);
+          this.clearMarkers();
+          this.resultsReturned = true;
+          this.addHereResponseMarkers(googleResponses);
         })
 
         /** Find centroid of Polygon */
@@ -218,6 +213,7 @@ export class MapComponent implements OnInit, OnDestroy {
           curve: 3
         });
 
+       /** Make the call to retrieve the places from Here Technologies Places API */
        this.mapService.findPlaces(lng, lat, updatedData.mode);
       })
 
@@ -343,21 +339,26 @@ buildGrid(features: any) {
               'line-color': '#888'
               }  
         }    
-      );
+    );
   }
 }
 
 
 handleAddressChange(address: any) {
-  /** Remove existing markers on address change */
+
+  /** Reset Qualifying Neighbourhood score to zero as new address being entered. */
+  this.qualifyingNeighbourhood = 0;
+
+  /** Then check if address is first address entered or changed address.
+   * If changed address (second or more lookup) then
+   * clear our previous markers and layer that exist */
   if (this.addressLoaded) {
     this.resultsReturned = false;
-  }
-  this.qualifyingNeighbourhood = 0;
-  if (this.addressLoaded) {
     this.clearMarkers();
   }
   
+  /** Parse address from Google Autocomplete and 
+   * send to Map Service and on to MapBox to retrieve IsoChrone  */
   if (address.formatted_address && address.geometry) {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat()
@@ -447,9 +448,9 @@ addHereResponseMarkers(hereResponse: any) {
                         categoryType='supermarket';
                         break;
                       }
-            }
-        }       
-    }
+              }
+          }       
+      }
     if(categoryType !== '') {
       this.addCategoryLayerType(categoryType, category);
     }
@@ -598,25 +599,25 @@ buildPopup(e: any, name: string){
     h3.innerHTML="<b>Hospital / Health</b>";
   }
 
-  if (name === 'school_layer') {
-    h3.innerHTML="<b>School / Education</b>";
-  }
+    if (name === 'school_layer') {
+      h3.innerHTML="<b>School / Education</b>";
+    }
 
-  if (name === 'supermarket_layer') {
-    h3.innerHTML="<b>Supermarket / Grocery</b>";
-  }
+      if (name === 'supermarket_layer') {
+        h3.innerHTML="<b>Supermarket / Grocery</b>";
+      }
 
-  if (name === 'park_layer') {
-    h3.innerHTML="<b>Park / Recreation</b>";
-  }
+        if (name === 'park_layer') {
+          h3.innerHTML="<b>Park / Recreation</b>";
+        }
 
-  if (name === 'bus_station_layer') {
-    h3.innerHTML="<b>Bus Station</b>";
-  }
+          if (name === 'bus_station_layer') {
+            h3.innerHTML="<b>Bus Station</b>";
+          }
 
-  if (name === 'train_station_layer') {
-    h3.innerHTML="<b>Train Station</b>";
-  }
+            if (name === 'train_station_layer') {
+              h3.innerHTML="<b>Train Station</b>";
+            }
 
   this.propValues = Object.values(e.features[0].properties);
   this.propKeys = Object.keys(e.features[0].properties);
@@ -634,52 +635,6 @@ buildPopup(e: any, name: string){
     .setLngLat(e.lngLat)
     .setHTML(listDiv.innerHTML)
     .addTo(this.map);
-}
-
-applyLabels(label) {
-  if (label.layer.type === 'Polygon'
-        || label.layer.type === 'LineString'
-        || label.layer.type === 'MultiPolygon'
-        || label.layer.type === 'MultiLineString') {
-        const options = ['format', ['get', label.label],
-              {'text-color': '#36454f', 'text-size': 10}];
-        if (this.map.getLayer(label.layer.id + '_labels')) {
-              this.map.setLayoutProperty(label.layer.id + '_labels', 'text-field', options);
-            } else {
-              this.map.addLayer({
-                id: label.layer.id + '_labels',
-                type: 'symbol',
-                source: label.layer.id,
-                layout: {
-                    'text-field': options,
-                    'symbol-placement': 'point'
-                },
-                paint: {
-                    'text-color': ['case',
-                        ['boolean', ['feature-state', 'hover'], false],
-                        'rgba(255,0,0,0.75)',
-                        'rgba(0,0,0,0.75)'
-                    ],
-                    'text-halo-color': ['case',
-                        ['boolean', ['feature-state', 'hover'], false],
-                        'rgba(255,255,0,0.75)',
-                        'rgba(255,255,255,0.75)'
-                    ],
-                }
-            });
-            }
-
-      } else if (label.layer.type === 'Point') {
-          if (label.label === 'No Label') {
-            this.map.setLayoutProperty(label.layer.id, 'text-field', '');
-          }
-          const options = ['format', ['get', label.label],
-            {'text-color': '#36454f', 'text-size': 10}];
-          this.map.setLayoutProperty(label.layer.id, 'text-field', options);
-          this.map.setLayoutProperty(label.layer.id, 'text-variable-anchor', ['top', 'bottom', 'left', 'right']);
-          this.map.setLayoutProperty(label.layer.id, 'text-justify', 'auto');
-          this.map.setLayoutProperty(label.layer.id, 'text-radial-offset', 0.5);
-        }
 }
 
  toggleLayer(layerId: string,  visibility?: boolean, labels?: boolean) {
@@ -709,20 +664,7 @@ applyLabels(label) {
   }
 }
 
-setVisibilityOnLoad(layerId: string,  visibility?: boolean) {
-  if (!visibility) {
-    this.map.setLayoutProperty(layerId, 'visibility', 'none');
-    if (this.map.getLayer(layerId + '_labels')) {
-      this.map.setLayoutProperty(layerId+ '_labels', 'visibility', 'none');
-     }
-     if (this.map.getLayer(layerId+'-border')) {
-       this.map.setLayoutProperty(layerId+'-border', 'visibility', 'none');
-     }
-  }
-}
-
 switchMapView(mapChangeObject) {
-  /** Check if base SVF image is on map and if not then add it */
   /** FIRST SET THE UPDATED MAPVIEW VARIABLE */
   if (mapChangeObject === 'MONOCHROME' || mapChangeObject.maptype === 'MONOCHROME') {
     this.viewChosenName = 'MONOCHROME';
@@ -820,32 +762,6 @@ switchMapView(mapChangeObject) {
           }
   }
 
-  applySymbol(layerId: string, image: string, label?: string) {
-    /** If the request was to apply no image then just
-     * revert back to base, I.E base-icon
-     */
-    if (image === 'no_image') {
-      image = 'base-icon';
-    }
-    const symbolLayout = {'icon-image': image};
-    this.map.setLayoutProperty(layerId, 'icon-image', image);
-    if (label) {
-      const options = ['format', ['get', label],
-        {'text-color': '#D0D6D0', 'text-size': 10}];
-      this.map.setLayoutProperty(layerId, 'text-field', options);
-      this.map.setLayoutProperty(layerId, 'text-variable-anchor', ['top', 'bottom', 'left', 'right']);
-      this.map.setLayoutProperty(layerId, 'text-justify', 'auto');
-      this.map.setLayoutProperty(layerId, 'text-radial-offset', 0.5);
-    }
-    }
-
-  setMap(map: mapboxgl) {
-    this.map = map;
-  }
-
-  getMap() {
-    return this.map;
-  }
 
   async delay(ms: number) {
     await new Promise<void>(resolve => setTimeout(() => resolve(), ms));
