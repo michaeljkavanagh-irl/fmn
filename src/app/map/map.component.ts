@@ -184,14 +184,14 @@ export class MapComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe(googleResponses => {
           console.log(googleResponses);
-         
+          
           if (this.resultsReturned) {
             this.clearMarkers();
             this.resultsReturned = false;
           } else {
             this.resultsReturned = true;
           }
-            this.addGoogleResponseMarkers(googleResponses);
+            this.addHereResponseMarkers(googleResponses);
         })
 
         /** Find centroid of Polygon */
@@ -348,7 +348,6 @@ buildGrid(features: any) {
 }
 
 
-
 handleAddressChange(address: any) {
   /** Remove existing markers on address change */
   if (this.addressLoaded) {
@@ -394,10 +393,9 @@ changeTime(time: string) {
   } else {
     this.snackBar.open('Please load an address first by typing in the Search Location box!', 'Close', {duration: 3000});
   }
-  
 }
 
-addGoogleResponseMarkers(hereResponse: any) {
+addHereResponseMarkers(hereResponse: any) {
   let categoryType = '';
   this.educationCatCount = hereResponse.categories[0].items.length;
   this.parkCatCount = hereResponse.categories[2].items.length;
@@ -425,37 +423,36 @@ addGoogleResponseMarkers(hereResponse: any) {
             categoryType = 'hospital';
             break;
           } 
-          else if(category.name === 'School' || category.name === 'Educational Facility') {
-            categoryType = 'school';
-            break;
-          }
-          else if(category.name === 'Park-Recreation Area' || category.name === 'Recreation Center'  || category.name === 'Sports Facility/Venue') {
-            categoryType = 'park';
-            break;
-          }
-          else if(category.name === 'Tourist Attraction') {
-            categoryType = 'tourist_attraction';
-            break;
-          } 
-          else if(category.name === 'Bus Stop') {
-            categoryType = 'bus_stop';
-            break;
-          }
-          else if(category.name === 'Train Station') {
-            categoryType = 'train_station';
-            break;
-          }
-          else if(category.name === 'Convenience Store' || category.name === 'Grocery') {
-            categoryType='supermarket';
-            break;
-          }
-        }
-      }       
+            else if(category.name === 'School' || category.name === 'Educational Facility') {
+              categoryType = 'school';
+              break;
+            }
+              else if(category.name === 'Park-Recreation Area' || category.name === 'Recreation Center'  || category.name === 'Sports Facility/Venue') {
+                categoryType = 'park';
+                break;
+              }
+                else if(category.name === 'Tourist Attraction') {
+                  categoryType = 'tourist_attraction';
+                  break;
+                } 
+                  else if(category.name === 'Bus Stop') {
+                    categoryType = 'bus_stop';
+                    break;
+                  }
+                    else if(category.name === 'Train Station') {
+                      categoryType = 'train_station';
+                      break;
+                    }
+                      else if(category.name === 'Convenience Store' || category.name === 'Grocery') {
+                        categoryType='supermarket';
+                        break;
+                      }
+            }
+        }       
     }
     if(categoryType !== '') {
       this.addCategoryLayerType(categoryType, category);
     }
-    
     categoryType = '';
   }
 
@@ -463,7 +460,6 @@ addGoogleResponseMarkers(hereResponse: any) {
 } 
 
 addCategoryLayerType(type: String, category: any) {
-
   let features = [];
   let tempObj;
   for (let entry of category.items) {
@@ -487,24 +483,24 @@ addCategoryLayerType(type: String, category: any) {
   if (type === 'supermarket') {
     symbolName = 'grocery-15';
   }
-  if (type === 'bus_stop' ) {
-    symbolName = 'bus';
-  }
-  if (type === 'train_station') {
-    symbolName = 'bus';
-  }
-  if (type === 'tourist_attraction') {
-    symbolName = 'museum-15';
-  }
-  if (type === 'hospital') {
-    symbolName = 'hospital-15'
-  }
-  if (type === 'school') {
-    symbolName = 'school-15';
-  }
-  if (type === 'park') {
-    symbolName = 'park-15';
-  }
+    if (type === 'bus_stop' ) {
+      symbolName = 'bus';
+    }
+      if (type === 'train_station') {
+        symbolName = 'bus';
+      }
+        if (type === 'tourist_attraction') {
+          symbolName = 'museum-15';
+        }
+          if (type === 'hospital') {
+            symbolName = 'hospital-15'
+          }
+            if (type === 'school') {
+              symbolName = 'school-15';
+            }
+              if (type === 'park') {
+                symbolName = 'park-15';
+              }
 
   if (this.map.getSource(type+'_source')) {
     this.map.getSource(type+'_source').setData({type:'FeatureCollection', features:features});
@@ -543,7 +539,6 @@ this.isLoading = false;
 goToLink(url: string) {
   window.open(url, "_blank");
 }
-
 
 updateSearch(event: Event) {
   this.value = (event.target as HTMLTextAreaElement).value;

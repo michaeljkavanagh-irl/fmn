@@ -15,7 +15,7 @@
     <!-- Spinner used for loading and in progress events-->
     <div class="example-loading-shade"
          *ngIf="fileUploading || loadingInProgress">
-      <mat-spinner *ngIf="fileUploading || loadingInProgress">
+      <mat-spinner >
       </mat-spinner>
       <div style="position: relative; top: 7px; right:99px; font-family: 'Raleway', sans-serif; font-size: 16px; color:palevioletred;">
         {{spinnerMessage}}
