@@ -29,6 +29,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   updateSearch(event: Event) {
     this.value = (event.target as HTMLTextAreaElement).value;
     if (this.value === '') {
+      return;
     } else {
       this.mapService.searchContent(this.value)
       .subscribe(results => {

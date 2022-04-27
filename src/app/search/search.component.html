@@ -9,7 +9,10 @@
 
       <mat-list role="list">
           <span *ngFor="let row of dataSource; let i=index" >
-           <mat-list-item role="listitem"  >{{row}}</mat-list-item>
+           <mat-list-item role="listitem"  >{{row.title}}</mat-list-item>
+           <mat-list-item role="listitem" style="font-size: smaller;" >
+            <mat-icon> location_on</mat-icon>
+            {{row.address.label}}</mat-list-item>
            <hr>
          </span>
          </mat-list>

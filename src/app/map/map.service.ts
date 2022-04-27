@@ -57,7 +57,6 @@ export class MapService implements OnDestroy{
 
 
   findPlaces(lat: any, lng: any, mode: string) {
-  //findPlaces(bbox: any, mode: string) {
         let radius = 0;
         if (mode === 'walking') {
           radius = 1205;
@@ -68,26 +67,12 @@ export class MapService implements OnDestroy{
         let params = {
           lat: lat,
           lng: lng,
-          /* bbox: bbox,
-          westLng: bbox[0],
-          southLat: bbox[1],
-          eastLng: bbox[2],
-          northLat: bbox[3], */
           radius: radius};
           this.http.post<{response: any}>(environment.serverUrl + 'api/data/places/', params)
           .subscribe( (googleResponse) => {
             this.googlePlacesResponse.next(googleResponse);
           });
       }
-
-  storeGrid(features: any) {
-    let params = { polygons: features};
-    this.http.post<{response: any}>(environment.serverUrl + 'api/data/features/', params)
-          .subscribe( (response) => {
-            console.log(response);
-            //this.response.next(googleResponse);
-          });
-  }
 
   getMapType() {
     return this.mapType;
@@ -103,7 +88,6 @@ export class MapService implements OnDestroy{
   getMapCentre() {
     return this.centre;
   }
-   /** FlyTo the location of a particular Session Data Layer */
   
   searchContent(key: any): Observable<string[]> {
     this.searchString = key;
@@ -113,8 +97,7 @@ export class MapService implements OnDestroy{
       const queryParams = `?value=${this.searchString}`;
       return  this.http.get<any>(environment.serverUrl + 'api/data/places/search' + queryParams)
     .pipe(map(responseDocs => 
-        responseDocs.results
-        .map(({title}) => title )))  
+        responseDocs.results.map(({title, address}) => ({title, address}) )))  
 
     }
   }
@@ -142,7 +125,6 @@ export class MapService implements OnDestroy{
   getLoadingCompleteStatusListener() {
     return this.loadingComplete.asObservable();
   }
-
 
   getPreStyledLayerVisibilityListener() {
     return this.preStyledLayerVisibility.asObservable();
